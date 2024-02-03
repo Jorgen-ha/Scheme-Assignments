@@ -1,0 +1,89 @@
+; Gruppemedlemmer; arminka, eirikmar og jorgehf
+
+; Oppgave 1 
+; a)
+
+(define (make-counter)
+  (let ((count 0))
+    (lambda ()
+      (begin (set! count (+ count 1))
+             count))))
+
+; b) TEGNING!
+
+
+; Oppgave 2
+; a)
+
+(define (make-stack stack)
+  (define (push! elements)
+    (set! stack (append (reverse elements) stack)))
+  (define (pop!)
+    (if (not (null? stack))
+        (set! stack (cdr stack))))
+  (define (dispatch . msg)
+    (cond ((eq? (car msg) 'push!) (push! (cdr msg)))
+          ((eq? (car msg) 'pop!) (pop!))
+          ((eq? (car msg) 'stack) stack)))
+  dispatch)
+
+; b)
+
+(define (push! . args)
+  (apply (car args) 'push! (cdr args)))
+    
+(define (pop! stack)
+  (stack 'pop!))
+
+(define (stack stck)
+  (stck 'stack))
+
+
+
+; Oppgave 3
+; a) TEGNING
+
+; b) TEGNING
+
+; c) 
+
+; d) list? gir false på bar fordi etter definisjonen vår av lister skal de
+;    termineres med en tom liste, hvilket bar aldri gjør. Derimot gjør bah det, 
+;    og derfor returneres true når vi kaller predikatet på denne 
+
+(define (cycle? list)
+    (if (number? list)
+        #f
+        (not (list? list))))
+
+
+; KODER FRA FORELESNING
+
+(define (append! x y)
+    (if (null? (cdr x))
+        (set-cdr! x y)
+        (append! (cdr x) y)))
+
+(define (printlist list)
+    (car ))
+
+
+;Sett inn i FIFO-kø
+(define (queue-insert! object queue)
+  (let ((new (cons object '() )))
+    (if (queue-empty? queue)
+        (set-car! queue new)
+        (set-cdr! (cdr queue) new))
+    (set-cdr! queue new)))
+
+;Bruk; (queue-insert! 'd q)
+
+
+;Penger fra bankkonto
+(define make-withdraw
+  (lambda (balance)
+    (lambda (amount) 
+      (if (>= balance amount)
+          (begin (set! balance (- balance amount))
+                 balance)
+          "insufficient funds"))))

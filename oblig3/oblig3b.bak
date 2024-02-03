@@ -1,0 +1,49 @@
+; Oblig 3b - Gruppemedlemmer; eiriak, arminka og jorgehf
+
+(load "evaluator.scm")
+
+; Oppgave 1 
+
+
+
+
+
+
+
+; Oppgave 2 
+; a)
+(define primitive-procedures
+  (list (list 'car car)
+        (list 'cdr cdr)
+        (list 'cons cons)
+        (list 'null? null?)
+        (list 'not not)
+        (list '+ +)
+        (list '- -)
+        (list '* *)
+        (list '/ /)
+        (list '= =)
+        (list 'eq? eq?)
+        (list 'equal? equal?)
+        (list 'display 
+              (lambda (x) (display x) 'ok))
+        (list 'newline 
+              (lambda () (newline) 'ok))
+;;      her kan vi legge til flere primitiver.
+        (list '1+ 
+              (lambda (x) (+ x 1)))
+        (list '1- 
+              (lambda (x) (- x 1)))
+        ))
+
+; Test
+(mc-eval '(1+ 4) the-global-environment) ; Skal evaluere til 5
+(mc-eval '(1- 4) the-global-environment) ; Skal evaluere til 3
+
+; b) 
+(define (install-primitive! name procedure)
+  (define-variable! name (list 'primitive procedure)
+                   the-global-environment))
+
+; Test
+(install-primitive! 'square (lambda (x) (+ x x)))
